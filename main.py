@@ -1,4 +1,5 @@
 import argparse
+from brute_force.bruteforce import brute_force_advanced, brute_force_charset
 from analyzer.analyzer import analyze_password
 from dictionary.generator import generate_dictionary, save_to_file
 from hash_extractor.hash_generator import hash_password, save_hash
@@ -22,9 +23,10 @@ def menu():
     print("1. Generate Dictionary")
     print("2. Generate Hash")
     print("3. Crack Password (John)")
-    print("4. Brute Force (Python)")
-    print("5. Analyze Password")
-    print("6. Exit")
+    print("4. Dictionary Attack")
+    print("5. Brute Force (Charset)")
+    print("6. Analyze Password")
+    print("7. Exit")
 
 
 # ---------------- Dictionary ----------------
@@ -161,15 +163,21 @@ if __name__ == "__main__":
             crack_password_option()
 
         elif choice == "4":
-            brute_force_option()
+             brute_force_option()
 
         elif choice == "5":
-            analyze_password_option()
+             hash_value = input("Enter hash: ")
+             algo = input("Algorithm (md5/sha1/sha256): ").lower()
+
+             brute_force_charset(hash_value, algo, max_length=3)
 
         elif choice == "6":
-            finalize_report()
-            print("Exiting...")
-            break
+             analyze_password_option()
+
+        elif choice == "7":
+             finalize_report()
+             print("Exiting...")
+             break
 
         else:
             print("Invalid choice")

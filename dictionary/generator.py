@@ -35,13 +35,19 @@ def generate_dictionary(base_words, append_numbers=True, max_num=100):
     return sorted(wordlist)
 
 
-def save_to_file(words, filename="wordlist.txt"):
-    base_path = os.path.dirname(__file__)
-    file_path = os.path.join(base_path, filename)
+def save_to_file(words):
+    existing = set()
 
-    with open(file_path, "w") as f:
+    try:
+        with open("dictionary/wordlist.txt", "r") as f:
+            existing = set(f.read().splitlines())
+    except FileNotFoundError:
+        pass
+
+    with open("dictionary/wordlist.txt", "a") as f:
         for word in words:
-            f.write(word + "\n")
+            if word not in existing:
+                f.write(word + "\n")
 
 
 if __name__ == "__main__":

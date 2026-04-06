@@ -40,13 +40,36 @@ def brute_force_advanced(hash_value, wordlist, algo="sha256", threads=4):
     with ThreadPoolExecutor(max_workers=threads) as executor:
         results = executor.map(worker, words)
 
-        for i, res in enumerate(results):
-            if i % 500 == 0:
-                print(f"[+] Tried {i} passwords...")
+        for result in results:
+            if result:
+                print("[+] Password Found:", result)
+                return result
 
-            if res:
-                print(f"\n[+] Password FOUND: {res}")
-                return res
+    print("[-] Password not found")
+import itertools
+import string
+import time
+
+def brute_force_charset(target_hash, algo="sha256", max_length=3):
+    print("[+] Starting REAL brute force (charset)...")
+
+    charset = string.ascii_lowercase  # a-z
+    attempts = 0
+    start_time = time.time()
+
+    for length in range(1, max_length + 1):
+        for guess in itertools.product(charset, repeat=length):
+            guess = ''.join(guess)
+            attempts += 1
+
+            hashed = hash_word(guess, algo)
+
+            if hashed == target_hash:
+                end_time = time.time()
+                print(f"[+] Found: {guess}")
+                print(f"[+] Attempts: {attempts}")
+                print(f"[+] Time: {round(end_time - start_time, 2)} sec")
+                return guess
 
     print("[-] Password not found")
     return None
