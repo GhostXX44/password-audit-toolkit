@@ -53,7 +53,7 @@ import time
 def brute_force_charset(target_hash, algo="sha256", max_length=3):
     print("[+] Starting REAL brute force (charset)...")
 
-    charset = string.ascii_lowercase  # a-z
+    charset = string.ascii_lowercase  
     attempts = 0
     start_time = time.time()
 
